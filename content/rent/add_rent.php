@@ -60,7 +60,7 @@ $materiels= $bdd->query('SELECT * FROM materiel');
       <form action="../../rentController.php" method="post" class="form-group">
         <h3 class="thin">Information du client</h3>
         <label for="cocli">Code du client<em>(definit automatiquement par le systeme )</em> </label>
-        <input type="text"  name="cocli" class="form-control" disabled="" id="cocli">
+        <input type="text"  name="cocli" class="form-control" id="cocli">
         <label for="nom">Nom </label>
         <input type="text" v-model="nom" name="nom" class="form-control" id="nom" @keypress="merge">
         <label for="rue">Rue</label>

@@ -2,8 +2,13 @@
 include('../../layouts/connection.php');
 $response = $bdd->query('SELECT * FROM materiel');
 $agencies = $bdd->query('SELECT * FROM agence');
+$ref=array();
+ $ag=array();
+ $json_ag;
+ $json_ref;
 $j=0;
 $k=0;
+$m=0;
   ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -15,7 +20,9 @@ $k=0;
   <!-- scripts -->
   <script src="../assets/js/jquery.min.js"></script>
   <script src="../assets/js/bootstrap.min.js"></script>
-    <script src="../../assets/js/bootstrap.bundle.js"></script>
+  <script src="../../assets/js/bootstrap.bundle.js"></script>
+  <script src="../../assets/js/vue.min.js"></script>
+
 
   <title>MATERIEL|Liste</title>
 </head>
@@ -69,7 +76,7 @@ $k=0;
 			<tbody>
 
         <?php
-        $ref=array();
+
          while($donnees=$response->fetch())
           {
             $ref[$j]=$donnees['ref'];
@@ -93,19 +100,26 @@ $k=0;
 
       </div>
       <hr>
-      <div class="row mt-5">
+      <div class="row mt-5" id="app">
               <h3 class="text-muted thin">Vous pouvez desormais affecter les materiels aux agences de l'entreprise:</h3>
               <div class="alert alert-warning">Voici la listes de toutes les agences et la liste de tous les materiel,selectionnez l'agence et puis ajoutez les materiel en specifiant la quantité.</div>
+
 
               <div class="col-sm-6 border-left border-success">
               <h6>Les agences:</h6>
                 <?php while($data=$agencies->fetch()){ ?>
                   <div class="form-group">
-                <input class="" type="radio" id="agence" name="agence" value=<?php echo $data['noa'] ?>>
+                <input class="" type="radio" id="agence" name="agence" value=<?php echo $data['nom_a'] ?> @click="selected_agencie">
                 <label for="agence"><?php echo $data['nom_a'] ?></label>
                     
                   </div>
-              <?php } ?>
+              <?php 
+                $ag[$m]=$data['nom_a'];
+                $m++;
+                 $json_ag=json_encode($ag);
+
+
+            } ?>
               </div>
 
               <div class="col-sm-6 border-left border-success">
@@ -113,16 +127,21 @@ $k=0;
                   <?php
                    for($k=0;$k<sizeof($ref);$k++)
                     { ?>
-                  <div class="form-group">
-                <input class="" type="checkbox" id="mat"  value=<?php echo $ref[$k] ?>>
+
+                  <div class="form-group" >
+                <input class="" type="checkbox" id="mat" value=<?php echo $ref[$k] ?>  @click="selected_materiel">
+                <input type="number" id="quantity" placeholder="quantité" name="restant" @click="ajouter" >
                 <label for="mat"><?php echo $ref[$k] ?></label>
                     
                   </div>
-              <?php } ?>
+              <?php } 
+                $json_mat=json_encode($ref);
+              ?>
               </div>
+              <div :agences="<?php echo $json_ag?>"></div>
 
         
-              </div>
+       </div>
 
       </div>
 
@@ -131,7 +150,51 @@ $k=0;
   </div> 
 
 </div>
+              <input type="" id="ag" value=<?php echo $json_ag ?>>
+              <input type="" id="mat" value=<?php echo $json_mat ?>>
+
   
+  <script>
+  app=new Vue({
+    el:'#app',
+    data:   {
+      agences:[],
+      materiels:[],
+      current_agence:'',
+      correspondance:[]  
+
+      
+       //correspondance des agences et leur materiels objet avec des tableau
+        
+      
+    },
+  methods: {
+
+    ajouter: function()
+    {
+      this.agences=document.getElementById('ag').value;
+
+    },
+    selected_agencie: function(e)
+    { 
+      this.current_agence=e.target.value;
+      console.log(this.current_agence);
+    },
+    selected_materiel: function(e)
+      {
+        current_agence=this.current_agence;
+        console.log('materiel selected is:'+e.target.value);
+        console.log('from meteriels selected agence:'+current_agence); 
+      this.correspondance[current_agence]=e.target.value;  
+        console.log(this.correspondance);
+      }
+  }
+
+  
+
+  });
+
+</script> 
 </body>
 </html>
 
