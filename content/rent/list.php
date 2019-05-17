@@ -53,6 +53,7 @@ $reponse = $bdd->query('SELECT * FROM contrat');
 		<div class="mt-5">
       <a href="add_rent.php" class="btn btn-primary ">Ajouter une nouvelle location</a>
 		</div>
+    <?php if($reponse->fetch()){ ?>
 		<table class="table table-striped table-bordered mt-5">
 			<thead>
 				<th>N contrat</th>
@@ -88,7 +89,14 @@ $reponse = $bdd->query('SELECT * FROM contrat');
       <?php } ?>
 			</tbody>
 		</table>
+<?php } 
+  else
+  {
 
+?>
+<div class="mx-auto"></div>
+<h5 class="text-muted">Pas de location a afficher</h5>
+<?php } ?>
 
 
     </div>

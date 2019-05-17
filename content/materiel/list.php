@@ -18,8 +18,8 @@ $m=0;
   <link rel="stylesheet" href="../../assets/css/bootstrap.min.css">
   <link rel="stylesheet" href="../../assets/css/style.css">
   <!-- scripts -->
-  <script src="../assets/js/jquery.min.js"></script>
-  <script src="../assets/js/bootstrap.min.js"></script>
+  <script src="../../assets/js/jquery.min.js"></script>
+  <script src="../../assets/js/bootstrap.min.js"></script>
   <script src="../../assets/js/bootstrap.bundle.js"></script>
   <script src="../../assets/js/vue.min.js"></script>
 
@@ -138,8 +138,8 @@ $m=0;
                 $json_mat=json_encode($ref);
               ?>
               </div>
-              <div :agences="<?php echo $json_ag?>"></div>
 
+      <button class="btn btn-primary mt-5 mx-auto">Enregistrer</button>
         
        </div>
 
@@ -150,8 +150,8 @@ $m=0;
   </div> 
 
 </div>
-              <input type="" id="ag" value=<?php echo $json_ag ?>>
-              <input type="" id="mat" value=<?php echo $json_mat ?>>
+              <input type="" id="ag" value=<?php echo $json_ag ?> style="visibility:hidden">
+              <input type="" id="mat" value=<?php echo $json_mat ?> style="visibility:hidden">
 
   
   <script>
@@ -161,6 +161,8 @@ $m=0;
       agences:[],
       materiels:[],
       current_agence:'',
+      materiel:{},
+
       correspondance:[]  
 
       
@@ -179,13 +181,17 @@ $m=0;
     { 
       this.current_agence=e.target.value;
       console.log(this.current_agence);
+
     },
     selected_materiel: function(e)
       {
         current_agence=this.current_agence;
-        console.log('materiel selected is:'+e.target.value);
-        console.log('from meteriels selected agence:'+current_agence); 
-      this.correspondance[current_agence]=e.target.value;  
+
+        if(e.target.checked)
+        this.correspondance[current_agence]+=e.target.value+",";  
+        else
+        this.correspondance[current_agence]=","+e.target.value+","; 
+
         console.log(this.correspondance);
       }
   }
