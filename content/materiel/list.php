@@ -105,7 +105,7 @@ $m=0;
               <div class="alert alert-warning">Voici la listes de toutes les agences et la liste de tous les materiel,selectionnez l'agence et puis ajoutez les materiel en specifiant la quantité.</div>
 
 
-              <div class="col-sm-6 border-left border-success">
+              <div class="col-sm-6 border-left border-success" @click="ajouter">
               <h6>Les agences:</h6>
                 <?php while($data=$agencies->fetch()){ ?>
                   <div class="form-group">
@@ -122,15 +122,15 @@ $m=0;
             } ?>
               </div>
 
-              <div class="col-sm-6 border-left border-success">
+              <div class="col-sm-6 border-left border-success" id="materials">
                  <h6>Les materiels:</h6>
                   <?php
                    for($k=0;$k<sizeof($ref);$k++)
                     { ?>
 
-                  <div class="form-group" >
-                <input class="" type="checkbox" id="mat" value=<?php echo $ref[$k] ?>  @click="selected_materiel">
-                <input type="number" id="quantity" placeholder="quantité" name="restant" @click="ajouter" >
+                  <div class="form-group"  >
+                <input class="" type="checkbox" name="check" id="mat" value=<?php echo $ref[$k] ?>  @click="selected_materiel">
+                <input type="number" id="quantity" placeholder="quantité" name="restant"  >
                 <label for="mat"><?php echo $ref[$k] ?></label>
                     
                   </div>
@@ -161,6 +161,8 @@ $m=0;
       agences:[],
       materiels:[],
       current_agence:'',
+      old:[],
+      click:1,
       materiel:{},
 
       correspondance:[]  
@@ -175,22 +177,54 @@ $m=0;
     ajouter: function()
     {
       this.agences=document.getElementById('ag').value;
+      this.materiels=document.getElementById('mat').value;
+
+    },
+    old_materiel: function(current_agence) //save the cheked materiel
+    {
+      this.old=this.correspondance;
+    },
+    check_materiels: function(agence) //executed when the agency is active
+    {
+
+          if(document.getElementById('mat').value==this.old[agence]) //check if the materiel is in the array of old_cheked
+            document.getElementById('mat').checked=true;
+    },
+    uncheck_materiels: function() //executed when the agency is desactivated
+    {
+      // for(let tmp=0;tmp<this.materiels.lenght();tmp++)
+      //     if(document.getElementById('mat')==this.old[agence]) //uncheck if the materiel is in the array of old_cheked
+      //       document.getElementById('mat').checked=false;
+      console.log('elements are checked:'+document.getElementsByName('check')ààà);
 
     },
     selected_agencie: function(e)
     { 
+      old_materiel=this.current_agence;
+      console.log('the old agency is:'+this.current_agence);
+      console.log('the current agency is:'+e.target.value);
+
+      console.log(e.target.checked);
       this.current_agence=e.target.value;
-      console.log(this.current_agence);
+      console.log(this.correspondance[this.current_agence]);
+      this.uncheck_materiels();
+
+
+
+
+
+
+        //test if the agence is checked or no
+
 
     },
     selected_materiel: function(e)
       {
-        current_agence=this.current_agence;
+
 
         if(e.target.checked)
-        this.correspondance[current_agence]+=e.target.value+",";  
-        else
-        this.correspondance[current_agence]=","+e.target.value+","; 
+        this.correspondance[this.current_agence]+=','+e.target.value+',';  
+       
 
         console.log(this.correspondance);
       }

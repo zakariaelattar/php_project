@@ -11,9 +11,11 @@ include('../../layouts/connection.php');
   <!-- fonts -->
   <link href="https://fonts.googleapis.com/css?family=Montserrat:200i" rel="stylesheet">
   <!-- scripts -->
-  <script src="../assets/js/jquery.min.js"></script>
-  <script src="../assets/js/bootstrap.min.js"></script>
-  <script src="../../assets/js/bootstrap.bundle.js"></script>
+  <script src="../../assets/js/jquery.min.js"></script>
+  <script src="../../assets/js/bootstrap.min.js"></script>
+  <script src="../../assets/js/bootstrap.bundle.min.js"></script>
+
+
   <title>AGENCE|Ajouter</title>
 </head>
 <body>
@@ -52,16 +54,16 @@ include('../../layouts/connection.php');
      
     </div>
     <hr>
-      <form action="../../materielcontroller.php" method="post" class="form-group">
+      <form action="../../materielcontroller.php" method="post" class="form-group needs-validation" data-toggle="validator" novalidate="true" name="contentForm" role="form">
         <h3 class="thin">Information du materiel</h3>
         <label for="ref">Reference <em>(3 lettre du nom et 3 numero de son identifiant)</em></label>
         <input type="text" name="ref" class="form-control " id="ref" >
         <label for="rue">designation</label>
-        <input type="text" name="design" class="form-control" id="design">
+        <input type="text" name="design" class="form-control" id="design" required data-error="Please enter a valid email.">
         <label for="pu">prix unitaire <em>(par semaine)</em></label>
-        <input type="text" name="pu" class="form-control " id="pu" >
+        <input type="text" name="pu" class="form-control " id="pu"  required="required" data-error="price">
 
-        <input type="submit" class="btn btn-success mt-4" value="Ajouter" style="margin-left: 40%;">
+        <input type="submit" class="btn btn-success mt-4" id="submit" value="Ajouter" style="margin-left: 40%;">
 
     
       </form>
@@ -71,7 +73,12 @@ include('../../layouts/connection.php');
   </div> 
 
 </div>
-  
+<script src="../../assets/js/bootstrap-validate.js" ></script>
+
+  <script>
+    bootstrapValidate('#design','required:le champs est requis') 
+    bootstrapValidate('#pu','required:le champs est requis')
+  </script>
 </body>
 </html>
 

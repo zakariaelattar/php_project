@@ -14,6 +14,8 @@ include('../../layouts/connection.php');
   <script src="../../assets/js/jquery.min.js"></script>
   <script src="../../assets/js/bootstrap.min.js"></script>
   <script src="../../assets/js/bootstrap.bundle.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/1000hz-bootstrap-validator/0.11.9/validator.min.js"></script>
+
   <title>AGENCE|Ajouter</title>
 </head>
 <body>
@@ -52,12 +54,12 @@ include('../../layouts/connection.php');
       L'ajout d'une agence permet de generer lors du besoin d'un contrat lorsque un client loue un ou plusieur materiel de celle-ci.
     </div>
     <hr>
-      <form action="../../agenceController.php" method="post" class="form-group">
+      <form action="../../agenceController.php" method="post" class="form-group" data-toggle="validator" novalidate="true">
         <h3 class="thin">Information de l'agence</h3>
         <label for="">Numero <em>(definie automatiquement par le systeme)</em></label>
         <input type="text" disabled="" name="noa" class="form-control " id="noa">
         <label for="nom_a">Nom de l'agence</label>
-        <input type="text" name="nom_a" class="form-control" id="nom_a">
+        <input type="text" name="nom_a" class="form-control" id="nom_a" required="required" data-error="Please enter a valid email.">
         <input type="submit" class="btn btn-success mt-4" value="Ajouter" style="margin-left: 40%;">
 
     
